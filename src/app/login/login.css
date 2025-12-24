@@ -1,3 +1,72 @@
-#login-container {
-    text-align: center;
+/* 1. Center the entire container on the screen */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6; /* Light grey/blue background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. The white box in the middle */
+.login-box {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 25px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* 3. Style the form labels */
+label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 4. Style the input fields */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+  transition: border-color 0.3s ease;
+}
+
+/* Highlight input on click */
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* 5. Style the Login Button */
+input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056b3;
 }

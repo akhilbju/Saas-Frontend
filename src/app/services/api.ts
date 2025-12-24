@@ -5,10 +5,16 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiService {
-    private AuthLoginUrl = 'https://fat-gabriela-akhil-organization-7ed0f63b.koyeb.app/api/Auth/LoginUser';
+  private commonUrl = 'https://fat-gabriela-akhil-organization-7ed0f63b.koyeb.app/api/';
+  
+  private AuthLoginUrl = this.commonUrl + '/Auth/LoginUser';
+  private RefreshTokenUrl = this.commonUrl + '/Auth/RefreshTokenGenerateRefreshToken?RefreshToken=';
 
-    constructor(private http: HttpClient) {}
-    loginUser(data: any) {
-        return this.http.post<any>(this.AuthLoginUrl, data);
-    }
+  constructor(private http: HttpClient) {}
+  loginUser(data: any) {
+    return this.http.post<any>(this.AuthLoginUrl, data);
+  }
+  refreshToken(refreshToken: string) {
+    return this.http.get<any>(this.RefreshTokenUrl + refreshToken);
+  }
 }

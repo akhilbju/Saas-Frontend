@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api';
-import { FormsModule } from '@angular/forms'; // 1. Import this
+import { FormsModule } from '@angular/forms';
+import { LoginModel } from '../models/login.model';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { FormsModule } from '@angular/forms'; // 1. Import this
   styleUrl: './login.css',
 })
 export class Login {
-  loginData = {
+  loginData: LoginModel = {
     email: '',
     password: '',
   };
@@ -21,8 +22,12 @@ export class Login {
     this.apiService.loginUser(this.loginData).subscribe({
       next: (response) => {
         console.log('Login successful!', response);
-        if (response.IsSuccess) {
-          alert(response.Message);
+        if (response.isSuccess) {
+          localStorage.setItem('AccessToken', response.accessToken);
+          localStorage.setItem('RefreshToken', response.refreshToken);
+          alert('Login successful!');
+        } else {
+          alert('Login failed: ' + response.message);
         }
       },
     });
