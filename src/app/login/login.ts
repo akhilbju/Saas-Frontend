@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ApiService } from '../services/api';
 import { FormsModule } from '@angular/forms';
 import { LoginModel } from '../models/login.model';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,7 @@ export class Login {
     password: '',
   };
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   onLoginSubmit() {
     this.apiService.loginUser(this.loginData).subscribe({
@@ -25,9 +27,9 @@ export class Login {
         if (response.isSuccess) {
           localStorage.setItem('AccessToken', response.accessToken);
           localStorage.setItem('RefreshToken', response.refreshToken);
-          alert('Login successful!');
+          this.router.navigate(['/home']);
         } else {
-          alert('Login failed: ' + response.message);
+          Swal.fire('Error', response.message, 'error');
         }
       },
     });

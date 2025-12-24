@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
   private commonUrl = 'https://fat-gabriela-akhil-organization-7ed0f63b.koyeb.app/api/';
-  
-  private AuthLoginUrl = this.commonUrl + '/Auth/LoginUser';
-  private RefreshTokenUrl = this.commonUrl + '/Auth/RefreshTokenGenerateRefreshToken?RefreshToken=';
+
+  private AuthLoginUrl = this.commonUrl + 'Auth/LoginUser';
+  private RefreshTokenUrl = this.commonUrl + 'Auth/RefreshTokenGenerateRefreshToken?RefreshToken=';
 
   constructor(private http: HttpClient) {}
   loginUser(data: any) {
