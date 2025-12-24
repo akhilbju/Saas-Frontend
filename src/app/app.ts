@@ -1,13 +1,21 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-
+import { Component } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { Sidebar } from './sidebar/sidebar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, Sidebar, NgIf],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
 export class App {
-  protected readonly title = signal('Saas-Frontend');
+  showSidebar = true;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(() => {
+      this.showSidebar = !this.router.url.includes('login');
+    });
+  }
 }
