@@ -3,7 +3,7 @@
     <h2>Login Page</h2>
     <form (ngSubmit)="onLoginSubmit()">
       <label for="email">Email:</label>
-      <input type="text" [(ngModel)]="loginData.email" name="email"><br><br>
+      <input type="email" name="email" [(ngModel)]="loginData.email" #emailCtrl="ngModel" required email /><br><br>
 
       <label for="password">Password:</label>
       <input type="password" [(ngModel)]="loginData.password" name="password"><br><br>

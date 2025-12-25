@@ -1,4 +1,3 @@
-/* 1. Center the entire container on the screen */
 .login-container {
   display: flex;
   justify-content: center;
@@ -8,7 +7,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* 2. The white box in the middle */
 .login-box {
   background: #ffffff;
   padding: 40px;
@@ -25,7 +23,6 @@ h2 {
   font-weight: 600;
 }
 
-/* 3. Style the form labels */
 label {
   display: block;
   text-align: left;
@@ -35,7 +32,7 @@ label {
 }
 
 /* 4. Style the input fields */
-input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 100%;
   padding: 12px 15px;
@@ -69,4 +66,13 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   background-color: #0056b3;
+}
+
+input.ng-invalid.ng-touched,
+input.ng-invalid.ng-dirty {
+  border: 2px solid red;
+}
+
+input.ng-valid.ng-touched {
+  border: 2px solid green;
 }

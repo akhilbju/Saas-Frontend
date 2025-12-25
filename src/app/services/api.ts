@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LoginResponse } from '../models/login.response';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
   loginUser(data: any) {
-    return this.http.post<any>(this.AuthLoginUrl, data);
+    return this.http.post<LoginResponse>(this.AuthLoginUrl, data);
   }
   refreshToken(refreshToken: string) {
     return this.http.get<any>(this.RefreshTokenUrl + refreshToken);

@@ -1,9 +1,17 @@
 import { Component } from '@angular/core';
+import { Constants } from '../shared/constant';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
   templateUrl: './sidebar.html',
-  styleUrls: ['./sidebar.css'] // ✅ FIX NAME
+  styleUrls: ['./sidebar.css'] 
 })
-export class Sidebar {}
+export class Sidebar {
+  
+  logout() {
+    localStorage.removeItem(Constants.AccessToken);
+    localStorage.removeItem(Constants.RefreshToken);
+    window.location.href = '/login';
+  }
+}
