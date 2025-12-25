@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { Sidebar } from './sidebar/sidebar';
+import { LoaderComponent } from './shared/loader/loader';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Sidebar, NgIf],
+  imports: [RouterOutlet, Sidebar, NgIf, LoaderComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
