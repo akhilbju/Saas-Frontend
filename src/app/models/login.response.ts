@@ -1,7 +1,7 @@
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
-  role: string;
+  userType: string;
   isSuccess: boolean;
   message: string;
   error: string;

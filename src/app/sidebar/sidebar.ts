@@ -12,6 +12,7 @@ export class Sidebar {
   logout() {
     localStorage.removeItem(Constants.AccessToken);
     localStorage.removeItem(Constants.RefreshToken);
+    localStorage.removeItem(Constants.Role);
     window.location.href = '/login';
   }
 }

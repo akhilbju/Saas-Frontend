@@ -31,7 +31,7 @@ export class Login {
         if (response.isSuccess) {
           localStorage.setItem(Constants.AccessToken, response.accessToken);
           localStorage.setItem(Constants.RefreshToken, response.refreshToken);
-          localStorage.setItem(Constants.Role, response.role);
+          localStorage.setItem(Constants.Role, response.userType);
           this.router.navigate(['/home']);
         } else {
           Swal.fire('Error', response.message, 'error');
