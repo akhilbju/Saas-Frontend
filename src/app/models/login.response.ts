@@ -1,8 +1,7 @@
-export interface LoginResponse {
+import { CommonResponse } from "./common.response";
+
+export interface LoginResponse  extends CommonResponse {
   accessToken: string;
   refreshToken: string;
   userType: string;
-  isSuccess: boolean;
-  message: string;
-  error: string;
 }
