@@ -18,11 +18,11 @@ export class ApiService {
 
   private auth : any = {
     LoginUser : this.commonUrl + this.Auth + 'LoginUser',
-    RefreshTokenGenerateRefreshToken : this.commonUrl + this.Auth + 'RefreshTokenGenerateRefreshToken?RefreshToken=',
+    RefreshTokenGenerateRefreshToken : this.commonUrl + this.Auth + 'GenerateRefreshToken?RefreshToken=',
   };
 
   private project : any = {
-    AddProject : this.commonUrl + this.Project + 'AddProject',
+    AddProject : this.commonUrl + this.Project + 'CreateProject',
     GetProjects : this.commonUrl + this.Project + 'GetProjects',
   };
   
