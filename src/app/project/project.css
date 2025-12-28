@@ -1,0 +1,41 @@
+.project-container {
+  /* padding: 20px; */
+  font: 1em sans-serif;
+}
+
+.header-part {
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: space-between;
+}
+
+.project-list {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 20px;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 150px;
+}
+.project-list:hover {
+  outline: none;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.project-list:active
+{
+    transform: scale(1.1);
+    background-color: #eee;
+}
+.create-button {
+  padding:0px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  height: 40px;
+}

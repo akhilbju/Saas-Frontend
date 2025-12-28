@@ -8,6 +8,7 @@ import {
 
 import { routes } from './app.routes';
 import { LoaderInterceptor } from './services/LoaderInterceptor';
+import { AuthInterceptor } from './services/AuthInterceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +16,12 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
+      useClass: LoaderInterceptor, 
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     }
   ]

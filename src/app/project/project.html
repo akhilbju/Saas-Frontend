@@ -1,1 +1,11 @@
-<p>project works!</p>
+<div class="project-container">
+    <div class="header-part">
+        <h2>Projects</h2>
+        <button *ngIf="allowedUser()" class="create-button">Load Projects</button>
+    </div>
+    <div class="project-list">
+        <div class="project-item" *ngFor="let project of projects">
+            <h3>{{ project.name }}</h3>
+            <p>{{ project.description }}</p>
+        </div>
+    </div>
