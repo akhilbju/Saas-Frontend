@@ -4,4 +4,5 @@ export interface AddProjectRequest {
   startDate: Date;
   endDate: Date;
   teamMemberIds: number[];
+  timeZone:string
 }

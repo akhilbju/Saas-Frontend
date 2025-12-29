@@ -5,6 +5,7 @@ import { AddProjectRequest } from '../models/addproject.request';
 import { CommonResponse } from '../models/common.response';
 import { GetProjectRequest } from '../models/getproject.request';
 import { GetProjectResponse } from '../models/getprojects.response';
+import { GetUsers } from '../models/getusers.response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class ApiService {
 
   private Auth = 'Auth/';
   private Project = 'Project/';
+  private Common = 'Common/';
 
   private auth : any = {
     LoginUser : this.commonUrl + this.Auth + 'LoginUser',
@@ -26,6 +28,9 @@ export class ApiService {
     GetProjects : this.commonUrl + this.Project + 'GetProjects',
   };
   
+  private common : any = {
+    GetAllUsers : this.commonUrl + this.Common + 'GetUsers',
+  };
 
   constructor(private http: HttpClient) {}
   loginUser(data: any) {
@@ -41,5 +46,9 @@ export class ApiService {
 
   getProjects(data: GetProjectRequest) {
     return this.http.post<GetProjectResponse>(this.project.GetProjects, data);
+  }
+
+  getAllUsers() {
+    return this.http.get<GetUsers[]>(this.common.GetAllUsers);
   }
 }
