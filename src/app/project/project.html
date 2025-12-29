@@ -2,26 +2,27 @@
     <div class="popup-backdrop" *ngIf="showPopup" (click)="createProject()">
         <div class="popup" (click)="$event.stopPropagation()">
             <h3>Create Project</h3>
-            <label for="name">Project Name:</label>
-            <input type="text" id="name" [(ngModel)]="creatProjectReq.name" /><br><br>
-            <label for="description">Project Description:</label>
-            <input type="text" id="description" [(ngModel)]="creatProjectReq.description" /><br><br>
-            <label for="startDate">Start Date:</label>
-            <input type="date" id="startDate" [(ngModel)]="creatProjectReq.startDate" /><br><br>
-            <label for="endDate">End Date:</label>
-            <input type="date" id="endDate" [(ngModel)]="creatProjectReq.endDate" /><br><br>
-            <label>Users:</label>
+            <div class="form-group">
+                <label for="name">Project Name:</label>
+                <input type="text" id="name" [(ngModel)]="creatProjectReq.name" /><br><br>
+                <label for="description">Project Description:</label>
+                <input type="text" id="description" [(ngModel)]="creatProjectReq.description" /><br><br>
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" [(ngModel)]="creatProjectReq.startDate" /><br><br>
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" [(ngModel)]="creatProjectReq.endDate" /><br><br>
+                <label>Users:</label>
 
-            <div class="multi-select" (click)="dropdown()">
-                <div class="tags">
-                    <span class="tag" *ngFor="let u of selectedUsers">
-                        {{ u.name }}
-                        <button (click)="removeUser(u); $event.stopPropagation()">×</button>
-                    </span>
-                    <input placeholder="Select users..." readonly />
+                <div class="multi-select" (click)="dropdown()">
+                    <div class="tags">
+                        <span class="tag" *ngFor="let u of selectedUsers">
+                            {{ u.name }}
+                            <button (click)="removeUser(u); $event.stopPropagation()">×</button>
+                        </span>
+                        <input class="multi-select-input" placeholder="Select users..." readonly />
+                    </div>
                 </div>
             </div>
-
             <div class="dropdown" *ngIf="showUserDropdown">
                 <div class="item" *ngFor="let u of users" (click)="addUser(u); $event.stopPropagation()">
                     {{ u.name }}

@@ -83,6 +83,7 @@
   padding: 6px;
   cursor: pointer;
   border-radius: 4px;
+  margin-top: 5px;
 }
 
 .tags {
@@ -120,5 +121,34 @@
 
 .item:hover {
   background: #f0f0f0;
+}
+
+#name,#description {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+#startDate,#endDate {
+  padding: 8px;
+  width: 48%;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  margin-left: 10px;
+}
+
+.multi-select-input {
+  display:flex;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  padding: 4px;
 }
 

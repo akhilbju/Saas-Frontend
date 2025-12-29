@@ -58,6 +58,7 @@ export class Project {
 
    closePopup() {
     this.showPopup = false;
+    this.showUserDropdown = false;
   }
 
   openPopup() {
