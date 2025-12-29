@@ -5,6 +5,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Roles } from '../shared/Roles';
 import { AddProjectRequest } from '../models/addproject.request';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-project',
@@ -20,13 +21,7 @@ export class Project {
     pageNumber: 1,
   };
 
-  users: any = [
-    { id: 1, name: 'Alice' },
-    { id: 2, name: 'Bob' },
-    { id: 3, name: 'Charlie' },
-    { id: 4, name: 'Diana' },
-    { id: 5, name: 'Ethan' },
-  ];
+  users: any = [];
   showPopup: boolean = false;
   projects: any[] = [];
   apiService = inject(ApiService);
@@ -36,17 +31,31 @@ export class Project {
     endDate: new Date(),
     description: '',
     teamMemberIds: [],
+    timeZone : Intl.DateTimeFormat().resolvedOptions().timeZone
   };
 
   showUserDropdown = false;
   selectedUsers: any[] = [];
 
   ngOnInit() {
+    this.getProjectsApi();
+    this.getAllUsers();
+  }
+
+  getProjectsApi() {
     this.apiService.getProjects(this.getProjects).subscribe({
       next: (response) => {
         if (response.count > 0) {
           this.projects = response.projects;
         }
+      },
+    });
+  }
+
+  getAllUsers(){
+    this.apiService.getAllUsers().subscribe({
+      next: (response) => {
+        this.users = response;
       },
     });
   }
@@ -70,7 +79,8 @@ export class Project {
       next: (response) => {
         if (response.isSuccess) {
           this.closePopup();
-          console.log('Project created successfully');
+          this.getProjectsApi();
+          Swal.fire('Success', response.message, 'success');
         }
       },
     });
