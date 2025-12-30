@@ -6,6 +6,7 @@ import { Roles } from '../shared/Roles';
 import { AddProjectRequest } from '../models/addproject.request';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -15,15 +16,15 @@ import Swal from 'sweetalert2';
   styleUrl: './project.css',
 })
 export class Project {
+  constructor(private routes : Router){}
   getProjects: GetProjectRequest = {
     projectName: '',
     rowsPerPage: 10,
     pageNumber: 1,
   };
-
   users: any = [];
   showPopup: boolean = false;
-  projects: any[] = [];
+  allProjects: any = {};
   apiService = inject(ApiService);
     creatProjectReq: AddProjectRequest = {
     name: '',
@@ -45,9 +46,7 @@ export class Project {
   getProjectsApi() {
     this.apiService.getProjects(this.getProjects).subscribe({
       next: (response) => {
-        if (response.count > 0) {
-          this.projects = response.projects;
-        }
+        this.allProjects = response
       },
     });
   }
@@ -103,4 +102,12 @@ export class Project {
     this.selectedUsers.splice(this.selectedUsers.indexOf(user), 1);
     this.users.push(user);
   }
+
+  navigate(projectId : number){
+    this.routes.navigate(['project-details'],{
+      state : { projectId : projectId
+      }
+    });
+  }
+  
 }

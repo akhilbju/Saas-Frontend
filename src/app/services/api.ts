@@ -6,6 +6,10 @@ import { CommonResponse } from '../models/common.response';
 import { GetProjectRequest } from '../models/getproject.request';
 import { GetProjectResponse } from '../models/getprojects.response';
 import { GetUsers } from '../models/getusers.response';
+import { GetProjectDetails } from '../models/getprojectdetails';
+import { Project } from '../project/project';
+import { Getprojectstatuses } from '../models/getprojectstatuses';
+import { CreateProjectStatus } from '../models/createprojectstatuses ';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +30,9 @@ export class ApiService {
   private project : any = {
     AddProject : this.commonUrl + this.Project + 'CreateProject',
     GetProjects : this.commonUrl + this.Project + 'GetProjects',
+    GetProjectDetails : this.commonUrl + this.Project + 'GetProjectById/',
+    GetProjectStatueses : this.commonUrl + this.Project + 'GetProjectStatuses/projectId?projectId=',
+    AddProjectStatus : this.commonUrl + this.Project + 'CreateProjectStatus'
   };
   
   private common : any = {
@@ -50,5 +57,17 @@ export class ApiService {
 
   getAllUsers() {
     return this.http.get<GetUsers[]>(this.common.GetAllUsers);
+  }
+
+  getProjectDetails(projectId : number){
+    return this.http.get<GetProjectDetails>(this.project.GetProjectDetails + projectId);
+  }
+
+  getProjectStatuses(ProjectId : number){
+    return this.http.get<Getprojectstatuses[]>(this.project.GetProjectStatueses + ProjectId);
+  }
+
+  createProjectStatus(request: CreateProjectStatus) {
+    return this.http.post<CommonResponse>(this.project.AddProjectStatus,request)
   }
 }

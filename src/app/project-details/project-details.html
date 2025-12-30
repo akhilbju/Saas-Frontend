@@ -1,0 +1,39 @@
+<div class="project-details">
+    <div class="top-bar">
+        <h3 class="project-title">{{ projectDetails.name }}</h3>
+
+        <nav class="project-tabs">
+            <a (click)="setActive('settings')" [class.active]="activeTab === 'settings'">
+                Settings
+            </a>
+
+            <a (click)="setActive('board')" [class.active]="activeTab === 'board'">
+                Board
+            </a>
+
+            <a (click)="setActive('timelogs')" [class.active]="activeTab === 'timelogs'">
+                TimeLogs
+            </a>
+
+            <a (click)="setActive('others')" [class.active]="activeTab === 'others'">
+                Blaa
+            </a>
+        </nav>
+    </div>
+    <h2>Settings</h2>
+    <div>
+        <h4>Statuses</h4>
+        <div class="form-group">
+            <label for="name">Status:</label>
+            <input type="text" id="name" [(ngModel)]="createProjectStatus.status" /><br><br>
+            <label for="positon">Position</label>
+            <input type="number" id="position" [(ngModel)]="createProjectStatus.position" /><br><br>
+            <label for="isDefault">Default:</label>
+            <select id="isDefault" [(ngModel)]="createProjectStatus.isDefault">
+                <option [ngValue]="true">Yes</option>
+                <option [ngValue]="false">No</option>
+            </select>
+        <button class="create" (click)="CreateStatus()">create</button>
+        </div>
+    </div>
+</div>
