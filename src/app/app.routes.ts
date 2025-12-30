@@ -3,10 +3,12 @@ import { Login } from './login/login';
 import { Home } from './home/home';
 import { AuthGuard } from './auth.guard';
 import { Project } from './project/project';
+import { ProjectDetails } from './project-details/project-details';
 
 export const routes: Routes = [
     { path : 'login' ,component : Login ,canActivate: [AuthGuard] },
     { path : 'home' ,component : Home  , pathMatch: 'full' },
     { path : 'project' ,component : Project  , pathMatch: 'full' },
+    { path : 'project-details' ,component : ProjectDetails  , pathMatch: 'full' },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
