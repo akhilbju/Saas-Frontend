@@ -6,9 +6,7 @@ import { Roles } from '../shared/Roles';
 import { AddProjectRequest } from '../models/addproject.request';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { routes } from '../app.routes';
 import { Router } from '@angular/router';
-import { GetProjectResponse } from '../models/getprojects.response';
 
 @Component({
   selector: 'app-project',
@@ -106,9 +104,8 @@ export class Project {
   }
 
   navigate(projectId : number){
-    console.log(projectId)
     this.routes.navigate(['project-details'],{
-      queryParams : { projectId : projectId
+      state : { projectId : projectId
       }
     });
   }
