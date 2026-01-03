@@ -24,6 +24,8 @@ export class ProjectDetails {
     projectId: this.projectId,
     status: '',
   };
+
+  addsettingstab: boolean = false;
   ngOnInit() {
     this.apiservice.getProjectDetails(this.projectId).subscribe({
       next: (response) => {
