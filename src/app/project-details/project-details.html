@@ -20,10 +20,14 @@
             </a>
         </nav>
     </div>
+    <div class="settings" *ngIf="checkActiveTab('settings')">
     <h2>Settings</h2>
     <div>
+        <div class="statuses-header"> 
         <h4>Statuses</h4>
-        <div class="form-group">
+        <button>+</button>
+        </div>
+        <div class="statuses-form-group">
             <label for="name">Status:</label>
             <input type="text" id="name" [(ngModel)]="createProjectStatus.status" /><br><br>
             <label for="positon">Position</label>
@@ -35,5 +39,6 @@
             </select>
         <button class="create" (click)="CreateStatus()">create</button>
         </div>
+    </div>
     </div>
 </div>

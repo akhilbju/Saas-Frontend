@@ -4,10 +4,11 @@ import { ApiService } from '../services/api';
 import { Route, Router } from '@angular/router';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import { CreateProjectStatus } from '../models/createprojectstatuses ';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-project-details',
-  imports: [FormsModule],
+  imports: [FormsModule, NgIf],
   templateUrl: './project-details.html',
   styleUrl: './project-details.css',
 })
@@ -50,5 +51,10 @@ export class ProjectDetails {
         this.getprojectStatuses();
       },
     });
+  }
+
+  checkActiveTab(tab: String) {
+    if(this.activeTab == tab) return true;
+    return false;
   }
 }
