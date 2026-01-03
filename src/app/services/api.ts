@@ -32,7 +32,8 @@ export class ApiService {
     GetProjects : this.commonUrl + this.Project + 'GetProjects',
     GetProjectDetails : this.commonUrl + this.Project + 'GetProjectById/',
     GetProjectStatueses : this.commonUrl + this.Project + 'GetProjectStatuses/projectId?projectId=',
-    AddProjectStatus : this.commonUrl + this.Project + 'CreateProjectStatus'
+    AddProjectStatus : this.commonUrl + this.Project + 'CreateProjectStatus',
+    DeleteProjectStatus : this.commonUrl + this.Project + 'DeleteProjectStatus/',
   };
   
   private common : any = {
@@ -69,5 +70,8 @@ export class ApiService {
 
   createProjectStatus(request: CreateProjectStatus) {
     return this.http.post<CommonResponse>(this.project.AddProjectStatus,request)
+  }
+  deleteProjectStatus(statusId : number){
+    return this.http.delete<CommonResponse>(this.project.DeleteProjectStatus + statusId);
   }
 }

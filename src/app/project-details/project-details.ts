@@ -66,4 +66,15 @@ export class ProjectDetails {
     if (this.activeTab == tab) return true;
     return false;
   }
+
+  deleteStatus(statusId : number){
+    this.apiservice.deleteProjectStatus(statusId).subscribe({
+      next: (response) => {
+        this.getprojectStatuses();
+      },
+    });
+  }
+
+  editStatus(){
+  }
 }
