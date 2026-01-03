@@ -24,7 +24,7 @@
         <h2>Settings</h2>
         <div class="statuses-header">
             <h4>Statuses</h4>
-            <button (click)="addsettingstab=true">+</button>
+            <button class="settingtab" (click)="addsettingstab=true">+</button>
         </div>
         <div class="statuses-popup-backdrop" *ngIf="addsettingstab">
             <div class="statuses-popup">
@@ -40,11 +40,15 @@
                         <option [ngValue]="false">No</option>
                     </select>
                     <div class="setting-popup-buttons">
-                        <button class="create" (click)="CreateStatus()">Create</button>
+                        <button class="create" (click)="CreateStatus(); $event.stopPropagation()">Create</button>
                         <button class="cancel" (click)="addsettingstab=false">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="statuses-list">
+            <div class="status-item" *ngFor="let status of statuses">
+                <p>{{ status.status }} (Position: {{ status.position }})</p>
+            </div>
     </div>
 </div>

@@ -4,11 +4,11 @@ import { ApiService } from '../services/api';
 import { Route, Router } from '@angular/router';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import { CreateProjectStatus } from '../models/createprojectstatuses ';
-import { NgIf } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-project-details',
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf, NgFor],
   templateUrl: './project-details.html',
   styleUrl: './project-details.css',
 })
@@ -27,13 +27,17 @@ export class ProjectDetails {
 
   addsettingstab: boolean = false;
   ngOnInit() {
+    this.getprojectDetails();
+    this.getprojectStatuses();
+  }
+
+  getprojectDetails() {
     this.apiservice.getProjectDetails(this.projectId).subscribe({
       next: (response) => {
         this.projectDetails = response;
       },
     });
   }
-
   getprojectStatuses() {
     this.apiservice.getProjectStatuses(this.projectId).subscribe({
       next: (response) => {
@@ -47,16 +51,19 @@ export class ProjectDetails {
     this.activeTab = tab;
   }
   CreateStatus() {
+    if (this.createProjectStatus.status == '') return;
     this.apiservice.createProjectStatus(this.createProjectStatus).subscribe({
       next: (response) => {
         console.log(response);
         this.getprojectStatuses();
       },
     });
+    this.addsettingstab = false;
+    this.getprojectStatuses();
   }
 
   checkActiveTab(tab: String) {
-    if(this.activeTab == tab) return true;
+    if (this.activeTab == tab) return true;
     return false;
   }
 }

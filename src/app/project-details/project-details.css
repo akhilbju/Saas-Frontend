@@ -90,3 +90,20 @@ html, body {
   justify-content: center;
   z-index: 1000;
 }
+
+.setting-popup-buttons,.statuses-header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.settingtab {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 10px;
+  height: 20px;
+}
