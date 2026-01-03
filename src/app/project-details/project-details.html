@@ -50,8 +50,10 @@
             <div class="status-item" *ngFor="let status of statuses">
                 <div class="status-list">
                     <p>{{ status.status }} (Position: {{ status.position }})</p>
-                    <button class="delete-button" (click)="deleteStatus(status.statusId)">Delete</button>
-                    <button class="edit-button" (click)="editStatus()">Edit</button>
+                    <div class="status-actions">
+                        <button class="delete-button" (click)="deleteStatus(status.statusId)">Delete</button>
+                        <button class="edit-button" (click)="editStatus()">Edit</button>
+                    </div>
                 </div>
             </div>
         </div>

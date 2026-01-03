@@ -50,16 +50,23 @@ export class ProjectDetails {
   setActive(tab: 'settings' | 'board' | 'timelogs' | 'others') {
     this.activeTab = tab;
   }
+
   CreateStatus() {
     if (this.createProjectStatus.status == '') return;
     this.apiservice.createProjectStatus(this.createProjectStatus).subscribe({
       next: (response) => {
-        console.log(response);
         this.getprojectStatuses();
       },
     });
     this.addsettingstab = false;
     this.getprojectStatuses();
+    
+    this.createProjectStatus = {
+      isDefault: false,
+      position: 0,
+      projectId: this.projectId,
+      status: '',
+    };
   }
 
   checkActiveTab(tab: String) {
