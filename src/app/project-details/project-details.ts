@@ -5,6 +5,7 @@ import { Route, Router } from '@angular/router';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import { CreateProjectStatus } from '../models/createprojectstatuses ';
 import { NgIf, NgFor } from '@angular/common';
+import { EditProjectStatus } from '../models/editProjectStatus';
 
 @Component({
   selector: 'app-project-details',
@@ -25,7 +26,21 @@ export class ProjectDetails {
     status: '',
   };
 
+  editProjectStatus: EditProjectStatus = {
+    isDefault: false,
+    position: 0,
+    StatusId: 0,
+    status: '',
+  };
+
+  newStatus: Getprojectstatuses = {
+    isDefault: this.createProjectStatus.isDefault,
+    position: this.createProjectStatus.position,
+    statusId: Math.max.length,
+    status: this.createProjectStatus.status,
+  };
   addsettingstab: boolean = false;
+  editsettingstab: boolean = false;
   ngOnInit() {
     this.getprojectDetails();
     this.getprojectStatuses();
@@ -50,16 +65,24 @@ export class ProjectDetails {
   setActive(tab: 'settings' | 'board' | 'timelogs' | 'others') {
     this.activeTab = tab;
   }
+
   CreateStatus() {
     if (this.createProjectStatus.status == '') return;
     this.apiservice.createProjectStatus(this.createProjectStatus).subscribe({
       next: (response) => {
-        console.log(response);
         this.getprojectStatuses();
       },
     });
+    this.statuses = [...this.statuses, this.newStatus];
     this.addsettingstab = false;
     this.getprojectStatuses();
+
+    this.createProjectStatus = {
+      isDefault: false,
+      position: 0,
+      projectId: this.projectId,
+      status: '',
+    };
   }
 
   checkActiveTab(tab: String) {
@@ -67,7 +90,7 @@ export class ProjectDetails {
     return false;
   }
 
-  deleteStatus(statusId : number){
+  deleteStatus(statusId: number) {
     this.apiservice.deleteProjectStatus(statusId).subscribe({
       next: (response) => {
         this.getprojectStatuses();
@@ -75,6 +98,20 @@ export class ProjectDetails {
     });
   }
 
-  editStatus(){
+  editStatus(status: Getprojectstatuses) {
+    this.editsettingstab = true;
+    this.editProjectStatus.StatusId = status.statusId;
+    this.editProjectStatus.isDefault = status.isDefault;
+    this.editProjectStatus.position = status.position;
+    this.editProjectStatus.status = status.status;
+  }
+
+  editStatusApi() {
+    this.apiservice.editProjectStatus(this.editProjectStatus).subscribe({
+      next: (response) => {
+        this.getprojectStatuses();
+        this.editsettingstab = false;
+      },
+    });
   }
 }

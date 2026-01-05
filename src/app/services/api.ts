@@ -10,6 +10,7 @@ import { GetProjectDetails } from '../models/getprojectdetails';
 import { Project } from '../project/project';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import { CreateProjectStatus } from '../models/createprojectstatuses ';
+import { EditProjectStatus } from '../models/editProjectStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -30,10 +31,11 @@ export class ApiService {
   private project : any = {
     AddProject : this.commonUrl + this.Project + 'CreateProject',
     GetProjects : this.commonUrl + this.Project + 'GetProjects',
-    GetProjectDetails : this.commonUrl + this.Project + 'GetProjectById/',
+    GetProjectDetails : this.commonUrl + this.Project + 'GetProjectDetails/',
     GetProjectStatueses : this.commonUrl + this.Project + 'GetProjectStatuses/projectId?projectId=',
     AddProjectStatus : this.commonUrl + this.Project + 'CreateProjectStatus',
     DeleteProjectStatus : this.commonUrl + this.Project + 'DeleteProjectStatus/',
+    EditProjectStatus : this.commonUrl + this.Project + 'EditProjectStatus'
   };
   
   private common : any = {
@@ -73,5 +75,8 @@ export class ApiService {
   }
   deleteProjectStatus(statusId : number){
     return this.http.delete<CommonResponse>(this.project.DeleteProjectStatus + statusId);
+  }
+  editProjectStatus(request:EditProjectStatus){
+    return this.http.patch<CommonResponse>(this.project.EditProjectStatus,request)
   }
 }
