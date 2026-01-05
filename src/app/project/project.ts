@@ -6,7 +6,8 @@ import { Roles } from '../shared/Roles';
 import { AddProjectRequest } from '../models/addproject.request';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { routes } from '../app.routes';
 
 @Component({
   selector: 'app-project',
@@ -16,7 +17,7 @@ import { Router } from '@angular/router';
   styleUrl: './project.css',
 })
 export class Project {
-  constructor(private routes : Router){}
+  constructor(private router: Router) {}
   getProjects: GetProjectRequest = {
     projectName: '',
     rowsPerPage: 10,
@@ -26,13 +27,13 @@ export class Project {
   showPopup: boolean = false;
   allProjects: any = {};
   apiService = inject(ApiService);
-    creatProjectReq: AddProjectRequest = {
+  creatProjectReq: AddProjectRequest = {
     name: '',
     startDate: new Date(),
     endDate: new Date(),
     description: '',
     teamMemberIds: [],
-    timeZone : Intl.DateTimeFormat().resolvedOptions().timeZone
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   };
 
   showUserDropdown = false;
@@ -46,12 +47,12 @@ export class Project {
   getProjectsApi() {
     this.apiService.getProjects(this.getProjects).subscribe({
       next: (response) => {
-        this.allProjects = response
+        this.allProjects = response;
       },
     });
   }
 
-  getAllUsers(){
+  getAllUsers() {
     this.apiService.getAllUsers().subscribe({
       next: (response) => {
         this.users = response;
@@ -64,7 +65,7 @@ export class Project {
     return role === Roles.Admin || role === Roles.Manager;
   }
 
-   closePopup() {
+  closePopup() {
     this.showPopup = false;
     this.showUserDropdown = false;
   }
@@ -85,29 +86,25 @@ export class Project {
     });
   }
 
-
   dropdown() {
     this.showUserDropdown = !this.showUserDropdown;
   }
 
   addUser(user: any) {
-      this.creatProjectReq.teamMemberIds.push(user.id);
-      this.users.splice(this.users.indexOf(user), 1);
-      this.selectedUsers.push(user);
+    this.creatProjectReq.teamMemberIds.push(user.id);
+    this.users.splice(this.users.indexOf(user), 1);
+    this.selectedUsers.push(user);
   }
 
-
   removeUser(user: any) {
-    this.creatProjectReq.teamMemberIds = this.creatProjectReq.teamMemberIds.filter((u) => u !== user.id);
+    this.creatProjectReq.teamMemberIds = this.creatProjectReq.teamMemberIds.filter(
+      (u) => u !== user.id
+    );
     this.selectedUsers.splice(this.selectedUsers.indexOf(user), 1);
     this.users.push(user);
   }
 
-  navigate(projectId : number){
-    this.routes.navigate(['project-details'],{
-      state : { projectId : projectId
-      }
-    });
+  navigate(projectId: number) {
+    this.router.navigate(['project-details', projectId]);
   }
-  
 }
