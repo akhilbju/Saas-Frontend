@@ -4,11 +4,21 @@ import { Home } from './home/home';
 import { AuthGuard } from './auth.guard';
 import { Project } from './project/project';
 import { ProjectDetails } from './project-details/project-details';
+import { ProjectDetailsBoard } from './project-details-board/project-details-board';
+import { ProjectDetailsSettings } from './project-details-settings/project-details-settings';
 
 export const routes: Routes = [
     { path : 'login' ,component : Login ,canActivate: [AuthGuard] },
     { path : 'home' ,component : Home  , pathMatch: 'full' },
     { path : 'project' ,component : Project  , pathMatch: 'full' },
-    { path : 'project-details' ,component : ProjectDetails  , pathMatch: 'full' },
+    {
+        path: 'project-details/:projectId',
+        component: ProjectDetails,
+        children: [
+          { path: '', redirectTo: 'board', pathMatch: 'full' },
+          { path: 'board', component: ProjectDetailsBoard },
+          { path: 'settings', component: ProjectDetailsSettings },
+        ]
+      },
     { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];

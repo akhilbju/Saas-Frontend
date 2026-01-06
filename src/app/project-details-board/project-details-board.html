@@ -1,0 +1,80 @@
+<div class="board-wrapper">
+    <!-- Header -->
+    <div class="button">
+        <button class="create-button" (click)="createTaskPopup = true">
+            Create Task 
+        </button>
+    </div>
+
+    <!-- Popup Backdrop -->
+    <div class="statuses-popup-backdrop" *ngIf="createTaskPopup" (click)="createTaskPopup = false">
+        <!-- Popup -->
+        <div class="statuses-popup" (click)="$event.stopPropagation()">
+            <h3>Create Task</h3>
+
+            <!-- Name -->
+            <label>Name</label>
+            <input type="text" [(ngModel)]="createTaskRequest.name" />
+            <br>
+            <!-- Description -->
+            <label>Description</label>
+            <input type="text" [(ngModel)]="createTaskRequest.description" />
+            <br>
+            <!-- Type -->
+            <label>Type</label>
+            <select [(ngModel)]="createTaskRequest.type">
+                <option value="Story">Story</option>
+                <option value="Bug">Bug</option>
+                <option value="Task">Task</option>
+            </select>
+            <br>
+            <!-- Users -->
+            <label>Users:</label>
+            <div class="multi-select" (click)="toggleUserDropdown(); $event.stopPropagation()">
+
+                <div class="tags">
+                    <span class="tag" *ngFor="let u of selectedUsers">
+                        {{ u.username }}
+                        <button (click)="removeUser(u); $event.stopPropagation()">×</button>
+                    </span>
+                    <input class="multi-select-input" placeholder="Select users..." readonly />
+                </div>
+
+                <!-- DROPDOWN MUST BE HERE -->
+                <div class="dropdown" *ngIf="showUserDropdown" (click)="$event.stopPropagation()">
+                    <div class="item" *ngFor="let u of projectDetails.teamMembers"
+                        (click)="addUser(u); $event.stopPropagation()">
+                        {{ u.username }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="setting-popup-buttons">
+                <button class="create" (click)="createTask()">
+                    Create
+                </button>
+
+                <button class="cancel" (click)="createTaskPopup = false">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Board -->
+    <div class="board">
+        <div class="column" *ngFor="let status of sortedStatuses" cdkDropList
+            [cdkDropListData]="tasksByStatus[status.statusId]" (cdkDropListDropped)="onDrop($event, status.statusId)">
+            <div class="column-header">
+                {{ status.status }}
+            </div>
+
+            <div class="column-body">
+                <div class="ticket" *ngFor="let ticket of tasksByStatus[status.statusId]" cdkDrag>
+                    {{ ticket.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
