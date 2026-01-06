@@ -1,11 +1,36 @@
+/* ========== BOARD LAYOUT ========== */
 
-.board-header {
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.button {
   display: flex;
   justify-content: flex-end;
   padding: 8px 16px;
 }
 
+.create-button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ========== BOARD ========== */
+
+.board {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 16px;
+}
+
+/* ========== COLUMN ========== */
+
 .column {
+  width: 260px;
   min-width: 260px;
   background-color: #f4f5f7;
   border-radius: 8px;
@@ -25,17 +50,8 @@
   padding: 12px;
   flex: 1;
 }
-.board {
-  display: flex;
-  gap: 16px;
-}
 
-.column {
-  width: 260px;
-  background: #f4f5f7;
-  border-radius: 8px;
-  padding: 8px;
-}
+/* ========== TICKET ========== */
 
 .ticket {
   background: white;
@@ -45,27 +61,190 @@
   cursor: grab;
 }
 
-.create-button {
-  padding: 8px 14px;
-  border-radius: 6px;
+/* ================= POPUP BACKDROP ================= */
+
+.statuses-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* ================= POPUP CONTAINER ================= */
+
+.statuses-popup {
+  background: #ffffff;
+  width: 420px;
+  max-width: 90%;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: popupFadeIn 0.2s ease-out;
+}
+
+/* ================= HEADER ================= */
+
+.statuses-popup h3 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
   font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 10px;
+}
+
+/* ================= FORM ================= */
+
+.statuses-popup label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+.statuses-popup input,
+.statuses-popup select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border 0.15s ease, box-shadow 0.15s ease;
+}
+
+.statuses-popup input:focus,
+.statuses-popup select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+/* ================= MULTI SELECT ================= */
+
+.multi-select {
+  position: relative;
+  min-height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.multi-select:hover {
+  border-color: #2563eb;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  background: #e0e7ff;
+  color: #1e3a8a;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tag button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #1e3a8a;
+}
+
+.multi-select-input {
+  border: none;
+  outline: none;
+  font-size: 0.85rem;
+  padding: 4px;
+  min-width: 120px;
   cursor: pointer;
 }
 
-.board-wrapper {
-  display: flex;
-  flex-direction: column; /* 👈 button on top, board below */
+/* ================= DROPDOWN ================= */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
 }
 
-.button {
+.dropdown .item {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.dropdown .item:hover {
+  background-color: #f3f4f6;
+}
+
+/* ================= BUTTONS ================= */
+
+.setting-popup-buttons {
   display: flex;
   justify-content: flex-end;
-  padding: 8px 16px;
+  gap: 10px;
+  margin-top: 22px;
 }
 
-.board {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding: 16px;
+.setting-popup-buttons button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.setting-popup-buttons .create {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.setting-popup-buttons .create:hover {
+  background: #1e40af;
+}
+
+.setting-popup-buttons .cancel {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.setting-popup-buttons .cancel:hover {
+  background: #d1d5db;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

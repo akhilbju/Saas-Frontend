@@ -1,26 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { ApiService } from '../services/api';
 import { ActivatedRoute } from '@angular/router';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
-import { NgFor } from '@angular/common';
 import {
   CdkDragDrop,
   DragDropModule,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Ticket } from '../models/ticketmodel';
 import { CreateTask } from '../models/createTask';
 import { GetTask } from '../models/GetTask';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ProjectContextService } from '../services/project-context';
 
 @Component({
   selector: 'app-project-details-board',
-  imports: [NgFor, DragDropModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './project-details-board.html',
   styleUrl: './project-details-board.css',
 })
 export class ProjectDetailsBoard {
-  constructor(private apiService: ApiService, private routes: ActivatedRoute) {}
+  constructor(
+    private apiService: ApiService,
+    private routes: ActivatedRoute,
+    private context: ProjectContextService
+  ) {}
   projectId: number = 0;
   statuses: Getprojectstatuses[] = [];
   sortedStatuses: any[] = [];
@@ -29,12 +35,21 @@ export class ProjectDetailsBoard {
     description: '',
     duration: 0,
     name: '',
-    projectId: 0,
+    projectId: this.projectId,
     type: '',
   };
+  createTaskPopup: boolean = false;
+  showUserDropdown: boolean = false;
   tasks: GetTask[] = [];
+  projectDetails: any = {
+    id: 0,
+    description: '',
+    isCompleted: false,
+    name: '',
+    teamMembers: [],
+  };
 
-  tasksByStatus: Record<string, GetTask[]> = {};
+  tasksByStatus: Record<string, any[]> = {};
 
   ngOnInit(): void {
     this.routes.parent?.paramMap.subscribe((params) => {
@@ -44,9 +59,12 @@ export class ProjectDetailsBoard {
         return;
       }
       this.projectId = +id;
+      this.createTaskRequest.projectId = this.projectId;
+      this.projectDetails = this.context.getProject();
     });
     this.getStatuses();
     this.GetTask();
+    this.setTaskBasedOnStatus();
   }
 
   getStatuses(): void {
@@ -86,24 +104,61 @@ export class ProjectDetailsBoard {
     }
   }
 
-  CreateTask(): void {
+  createTask(): void {
+    this.createTaskRequest.assignedTo = this.selectedUsers.map((user) => user.id);
     this.apiService.createTask(this.createTaskRequest).subscribe({
       next: (response) => {
-        for (const task of this.tasks) {
-          if (!this.tasksByStatus[task.status]) {
-            this.tasksByStatus[task.status] = [];
-          }
-          this.tasksByStatus[task.status].push(task);
-        }
+        this.createTaskPopup = false;
+        this.createTaskRequest = {
+          assignedTo: [],
+          description: '',
+          duration: 0,
+          name: '',
+          projectId: this.projectId,
+          type: '',
+        };
       },
     });
   }
 
+  initializeTaskMap(): void {
+    this.tasksByStatus = {};
+
+    for (const status of this.sortedStatuses) {
+      this.tasksByStatus[status.statusId] = [];
+    }
+  }
+  setTaskBasedOnStatus(): void {
+    this.initializeTaskMap();
+
+    for (const task of this.tasks) {
+      if (this.tasksByStatus[task.status] !== undefined) {
+        this.tasksByStatus[task.status].push(task);
+      }
+    }
+  }
   GetTask(): void {
     this.apiService.getallTask(this.projectId).subscribe({
       next: (response) => {
         this.tasks = response;
       },
     });
+  }
+
+  selectedUsers: any[] = [];
+
+  toggleUserDropdown() {
+    this.showUserDropdown = !this.showUserDropdown;
+  }
+
+  addUser(user: any) {
+    if (!this.selectedUsers.find((u) => u.id === user.id)) {
+      this.selectedUsers.push(user);
+    }
+  }
+
+  removeUser(user: any) {
+    this.selectedUsers = this.selectedUsers.filter((u) => u.id !== user.id);
+    this.projectDetails.teamMembers;
   }
 }

@@ -8,6 +8,8 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { ProjectApiModel } from '../models/getprojects.response';
+import { ProjectContextService } from '../services/project-context';
 
 @Component({
   selector: 'app-project-details',
@@ -16,8 +18,14 @@ import {
   styleUrl: './project-details.css',
 })
 export class ProjectDetails {
-  constructor(private apiservice: ApiService, private routes: ActivatedRoute) {}
-  projectDetails: any = {};
+  constructor(private apiservice: ApiService, private routes: ActivatedRoute,private context:ProjectContextService) {}
+  projectDetails: ProjectApiModel = {
+    id :0,
+    description:'',
+    isCompleted:false,
+    name:'',
+    teamMembers:[],
+  };
   projectId = history.state.projectId;
 
   ngOnInit() {
@@ -30,13 +38,17 @@ export class ProjectDetails {
       this.projectId = +id;
     });
     this.getprojectDetails();
+    this.context.setProject(this.projectDetails);
   }
 
   getprojectDetails() {
     this.apiservice.getProjectDetails(this.projectId).subscribe({
       next: (response) => {
-        this.projectDetails = response;
-        console.log('projectname', this.projectDetails.name);
+        this.projectDetails.teamMembers = response.teamMembers;
+        this.projectDetails.description = response.description;
+        this.projectDetails.id = response.id;
+        this.projectDetails.name = response.name;
+        this.projectDetails.isCompleted = response.isCompleted;
       },
     });
   }
