@@ -15,7 +15,7 @@ export const routes: Routes = [
         path: 'project-details/:projectId',
         component: ProjectDetails,
         children: [
-          { path: '', redirectTo: 'settings', pathMatch: 'full' },
+          { path: '', redirectTo: 'board', pathMatch: 'full' },
           { path: 'board', component: ProjectDetailsBoard },
           { path: 'settings', component: ProjectDetailsSettings },
         ]

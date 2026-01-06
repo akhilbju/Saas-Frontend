@@ -64,7 +64,6 @@ export class ProjectDetailsBoard {
     });
     this.getStatuses();
     this.GetTask();
-    this.setTaskBasedOnStatus();
   }
 
   getStatuses(): void {
@@ -130,17 +129,19 @@ export class ProjectDetailsBoard {
   }
   setTaskBasedOnStatus(): void {
     this.initializeTaskMap();
-
     for (const task of this.tasks) {
       if (this.tasksByStatus[task.status] !== undefined) {
         this.tasksByStatus[task.status].push(task);
       }
     }
+
   }
+
   GetTask(): void {
     this.apiService.getallTask(this.projectId).subscribe({
       next: (response) => {
         this.tasks = response;
+        this.setTaskBasedOnStatus();
       },
     });
   }
