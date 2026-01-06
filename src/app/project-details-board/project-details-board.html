@@ -1,14 +1,29 @@
-<div class="board">
-    <div class="column" *ngFor="let status of sortedStatuses" cdkDropList
-        [cdkDropListData]="ticketsByStatus[status.key]" (cdkDropListDropped)="onDrop($event, status.key)">
+<div class="board-wrapper">
+  <div class="button">
+    <button class="create-button">Create Task +</button>
+  </div>
 
-        <div class="column-header">
-            {{ status.status }}
-        </div>
+  <div class="board">
+    <div
+      class="column"
+      *ngFor="let status of sortedStatuses"
+      cdkDropList
+      [cdkDropListData]="tasksByStatus[status.status]"
+      (cdkDropListDropped)="onDrop($event, status.status)"
+    >
+      <div class="column-header">
+        {{ status.status }}
+      </div>
 
-        <div class="column-body">
-            <div class="ticket" *ngFor="let ticket of ticketsByStatus[status.key]" cdkDrag>
-                {{ ticket.title }}
-            </div>
+      <div class="column-body">
+        <div
+          class="ticket"
+          *ngFor="let ticket of tasksByStatus[status.status]"
+          cdkDrag
+        >
+          {{ ticket.name }}
         </div>
+      </div>
     </div>
+  </div>
+</div>

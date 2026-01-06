@@ -11,6 +11,8 @@ import { Project } from '../project/project';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import { CreateProjectStatus } from '../models/createprojectstatuses ';
 import { EditProjectStatus } from '../models/editProjectStatus';
+import { CreateTask } from '../models/createTask';
+import { GetTask } from '../models/GetTask';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +37,9 @@ export class ApiService {
     GetProjectStatueses : this.commonUrl + this.Project + 'GetProjectStatuses/projectId?projectId=',
     AddProjectStatus : this.commonUrl + this.Project + 'CreateProjectStatus',
     DeleteProjectStatus : this.commonUrl + this.Project + 'DeleteProjectStatus/',
-    EditProjectStatus : this.commonUrl + this.Project + 'EditProjectStatus'
+    EditProjectStatus : this.commonUrl + this.Project + 'EditProjectStatus',
+    CreateTask : this.commonUrl + this.Project + 'CreateTask',
+    GetTask : this.commonUrl + this.Project + 'GetTasks/projectId?projectId='
   };
   
   private common : any = {
@@ -49,27 +53,21 @@ export class ApiService {
   refreshToken(refreshToken: string) {
     return this.http.get<LoginResponse>(this.auth.RefreshTokenGenerateRefreshToken + refreshToken);
   }
-
   addProject(data: AddProjectRequest) {
     return this.http.post<CommonResponse>(this.project.AddProject, data);
   }
-
   getProjects(data: GetProjectRequest) {
     return this.http.post<GetProjectResponse>(this.project.GetProjects, data);
   }
-
   getAllUsers() {
     return this.http.get<GetUsers[]>(this.common.GetAllUsers);
   }
-
   getProjectDetails(projectId : number){
     return this.http.get<GetProjectDetails>(this.project.GetProjectDetails + projectId);
   }
-
   getProjectStatuses(ProjectId : number){
     return this.http.get<Getprojectstatuses[]>(this.project.GetProjectStatueses + ProjectId);
   }
-
   createProjectStatus(request: CreateProjectStatus) {
     return this.http.post<CommonResponse>(this.project.AddProjectStatus,request)
   }
@@ -78,5 +76,11 @@ export class ApiService {
   }
   editProjectStatus(request:EditProjectStatus){
     return this.http.patch<CommonResponse>(this.project.EditProjectStatus,request)
+  }
+  createTask(request:CreateTask){
+    return this.http.post<CommonResponse>(this.project.CreateTask,request)
+  }
+  getallTask(projectId : number){
+    return this.http.get<GetTask[]>(this.project.GetTask + projectId);
   }
 }

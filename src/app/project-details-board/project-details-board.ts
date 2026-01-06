@@ -10,6 +10,8 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Ticket } from '../models/ticketmodel';
+import { CreateTask } from '../models/createTask';
+import { GetTask } from '../models/GetTask';
 
 @Component({
   selector: 'app-project-details-board',
@@ -22,12 +24,17 @@ export class ProjectDetailsBoard {
   projectId: number = 0;
   statuses: Getprojectstatuses[] = [];
   sortedStatuses: any[] = [];
-  
-  ticketsByStatus: Record<string, Ticket[]> = {
-    BACKLOG: [{ id: 1, title: 'Setup project', status: 'Todo' }],
-    TODO: [{ id: 2, title: 'Create UI', status: 'Todo' }],
-    IN_PROGRESS: [{ id: 3, title: 'API integration', status: 'Hold' }],
+  createTaskRequest: CreateTask = {
+    assignedTo: [],
+    description: '',
+    duration: 0,
+    name: '',
+    projectId: 0,
+    type: '',
   };
+  tasks: GetTask[] = [];
+
+  tasksByStatus: Record<string, GetTask[]> = {};
 
   ngOnInit(): void {
     this.routes.parent?.paramMap.subscribe((params) => {
@@ -39,6 +46,7 @@ export class ProjectDetailsBoard {
       this.projectId = +id;
     });
     this.getStatuses();
+    this.GetTask();
   }
 
   getStatuses(): void {
@@ -60,7 +68,7 @@ export class ProjectDetailsBoard {
       .sort((a, b) => a.position - b.position);
   }
 
-  onDrop(event: CdkDragDrop<Ticket[]>, newStatus: string) {
+  onDrop(event: CdkDragDrop<GetTask[]>, newStatus: number) {
     if (event.previousContainer === event.container) {
       // Same column → reorder
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -76,5 +84,26 @@ export class ProjectDetailsBoard {
       const movedTicket = event.container.data[event.currentIndex];
       movedTicket.status = newStatus;
     }
+  }
+
+  CreateTask(): void {
+    this.apiService.createTask(this.createTaskRequest).subscribe({
+      next: (response) => {
+        for (const task of this.tasks) {
+          if (!this.tasksByStatus[task.status]) {
+            this.tasksByStatus[task.status] = [];
+          }
+          this.tasksByStatus[task.status].push(task);
+        }
+      },
+    });
+  }
+
+  GetTask(): void {
+    this.apiService.getallTask(this.projectId).subscribe({
+      next: (response) => {
+        this.tasks = response;
+      },
+    });
   }
 }

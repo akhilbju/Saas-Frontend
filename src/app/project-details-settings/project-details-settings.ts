@@ -50,17 +50,10 @@ export class ProjectDetailsSettings {
       }
       this.projectId = +id;
       this.createProjectStatus.projectId = this.projectId;
-      this.getprojectDetails();
       this.getprojectStatuses();
     });
   }
-  getprojectDetails() {
-    this.apiservice.getProjectDetails(this.projectId).subscribe({
-      next: (response) => {
-        this.projectDetails = response;
-      },
-    });
-  }
+
   getprojectStatuses() {
     this.apiservice.getProjectStatuses(this.projectId).subscribe({
       next: (response) => {
