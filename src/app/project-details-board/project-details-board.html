@@ -2,7 +2,7 @@
     <!-- Header -->
     <div class="button">
         <button class="create-button" (click)="createTaskPopup = true">
-            Create Task 
+            Create Task
         </button>
     </div>
 
@@ -64,15 +64,20 @@
 
     <!-- Board -->
     <div class="board">
-        <div class="column" *ngFor="let status of sortedStatuses" cdkDropList
-            [cdkDropListData]="tasksByStatus[status.statusId]" (cdkDropListDropped)="onDrop($event, status.statusId)">
-            <div class="column-header">
-                {{ status.status }}
-            </div>
+        <div class="board">
+            <div class="column" *ngFor="let status of sortedStatuses" cdkDropList [id]="'status-' + status.statusId"
+                [cdkDropListData]="tasksByStatus[status.statusId]" [cdkDropListConnectedTo]="connectedDropLists"
+                (cdkDropListDropped)="onDrop($event)">
 
-            <div class="column-body">
-                <div class="ticket" *ngFor="let ticket of tasksByStatus[status.statusId]" cdkDrag>
-                    {{ ticket.name }}
+                <div class="column-header">
+                    {{ status.status }}
+                </div>
+
+                <div class="column-body">
+                    <div class="ticket" *ngFor="let ticket of tasksByStatus[status.statusId]" cdkDrag
+                        [cdkDragData]="ticket">
+                        {{ ticket.name }}
+                    </div>
                 </div>
             </div>
         </div>

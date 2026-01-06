@@ -48,6 +48,7 @@ export class ProjectDetailsBoard {
     name: '',
     teamMembers: [],
   };
+  connectedDropLists: string[] = [];
 
   tasksByStatus: Record<string, any[]> = {};
 
@@ -71,6 +72,7 @@ export class ProjectDetailsBoard {
       next: (response) => {
         this.statuses = response;
         this.orderItem();
+        this.setConnectedDropLists();
       },
     });
   }
@@ -85,22 +87,26 @@ export class ProjectDetailsBoard {
       .sort((a, b) => a.position - b.position);
   }
 
-  onDrop(event: CdkDragDrop<GetTask[]>, newStatus: number) {
-    if (event.previousContainer === event.container) {
-      // Same column → reorder
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      // Different column → move ticket
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
+  onDrop(event: CdkDragDrop<any[]>): void {
+    console.log('FROM:', event.previousContainer.id);
+    console.log('TO:', event.container.id);
 
-      const movedTicket = event.container.data[event.currentIndex];
-      movedTicket.status = newStatus;
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      return;
     }
+
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    const ticket = event.item.data;
+    const targetStatusId = Number(event.container.id.replace('status-', ''));
+    ticket.status = targetStatusId;
+    console.log('NEW STATUS ID:', targetStatusId);
   }
 
   createTask(): void {
@@ -134,7 +140,6 @@ export class ProjectDetailsBoard {
         this.tasksByStatus[task.status].push(task);
       }
     }
-
   }
 
   GetTask(): void {
@@ -155,11 +160,16 @@ export class ProjectDetailsBoard {
   addUser(user: any) {
     if (!this.selectedUsers.find((u) => u.id === user.id)) {
       this.selectedUsers.push(user);
+      this.projectDetails.teamMembers.splice(this.projectDetails.teamMembers.indexOf(user), 1);
     }
   }
 
   removeUser(user: any) {
     this.selectedUsers = this.selectedUsers.filter((u) => u.id !== user.id);
-    this.projectDetails.teamMembers;
+    this.projectDetails.teamMembers.push(user);
+  }
+
+  setConnectedDropLists(): void {
+    this.connectedDropLists = this.sortedStatuses.map((s) => 'status-' + s.statusId);
   }
 }
