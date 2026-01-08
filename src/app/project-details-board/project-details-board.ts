@@ -1,9 +1,10 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, ElementRef, NgModule, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api';
 import { ActivatedRoute } from '@angular/router';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import {
   CdkDragDrop,
+  CdkDragMove,
   DragDropModule,
   moveItemInArray,
   transferArrayItem,
@@ -13,6 +14,7 @@ import { GetTask } from '../models/GetTask';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProjectContextService } from '../services/project-context';
+import { UpdateTaskRequest } from '../models/updateTaskRequest';
 
 @Component({
   selector: 'app-project-details-board',
@@ -50,8 +52,15 @@ export class ProjectDetailsBoard {
   };
   connectedDropLists: string[] = [];
 
-  tasksByStatus: Record<string, any[]> = {};
-
+  tasksByStatus: Record<number, any[]> = {};
+  updatetaskRequest: UpdateTaskRequest = {
+    assignees: [],
+    description: '',
+    duration: null,
+    status: null,
+    taskId: 0,
+    taskName: '',
+  };
   ngOnInit(): void {
     this.routes.parent?.paramMap.subscribe((params) => {
       const id = params.get('projectId');
@@ -88,14 +97,10 @@ export class ProjectDetailsBoard {
   }
 
   onDrop(event: CdkDragDrop<any[]>): void {
-    console.log('FROM:', event.previousContainer.id);
-    console.log('TO:', event.container.id);
-
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       return;
     }
-
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,
@@ -105,8 +110,9 @@ export class ProjectDetailsBoard {
 
     const ticket = event.item.data;
     const targetStatusId = Number(event.container.id.replace('status-', ''));
-    ticket.status = targetStatusId;
-    console.log('NEW STATUS ID:', targetStatusId);
+    this.updatetaskRequest.status = targetStatusId;
+    this.updatetaskRequest.taskId = ticket.taskId;
+    this.updateTask();
   }
 
   createTask(): void {
@@ -133,6 +139,7 @@ export class ProjectDetailsBoard {
       this.tasksByStatus[status.statusId] = [];
     }
   }
+
   setTaskBasedOnStatus(): void {
     this.initializeTaskMap();
     for (const task of this.tasks) {
@@ -171,5 +178,44 @@ export class ProjectDetailsBoard {
 
   setConnectedDropLists(): void {
     this.connectedDropLists = this.sortedStatuses.map((s) => 'status-' + s.statusId);
+  }
+
+  updateTask(): void {
+    this.apiService.updateTask(this.updatetaskRequest).subscribe({
+      next: (response) => {
+        this.updatetaskRequest = {
+          assignees: [],
+          description: '',
+          duration: null,
+          status: null,
+          taskId: 0,
+          taskName: '',
+        };
+      },
+    });
+  }
+  deleteTask(taskId: number) {
+    this.apiService.deleteTaksk(taskId).subscribe({
+      next: (respone) => {
+        this.GetTask();
+      },
+    });
+  }
+
+  @ViewChild('boardWrapper', { static: true })
+  boardWrapper!: ElementRef<HTMLElement>;
+
+  onDragMoved(event: CdkDragMove) {
+    const container = this.boardWrapper.nativeElement;
+    const rect = container.getBoundingClientRect();
+
+    const threshold = 70;
+    const speed = 18;
+
+    if (event.pointerPosition.x > rect.right - threshold) {
+      container.scrollLeft += speed;
+    } else if (event.pointerPosition.x < rect.left + threshold) {
+      container.scrollLeft -= speed;
+    }
   }
 }

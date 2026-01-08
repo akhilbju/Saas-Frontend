@@ -63,7 +63,7 @@
     </div>
 
     <!-- Board -->
-    <div class="board">
+    <div class="board-scroll" #boardWrapper>
         <div class="board">
             <div class="column" *ngFor="let status of sortedStatuses" cdkDropList [id]="'status-' + status.statusId"
                 [cdkDropListData]="tasksByStatus[status.statusId]" [cdkDropListConnectedTo]="connectedDropLists"
@@ -75,11 +75,12 @@
 
                 <div class="column-body">
                     <div class="ticket" *ngFor="let ticket of tasksByStatus[status.statusId]" cdkDrag
-                        [cdkDragData]="ticket">
+                        (cdkDragMoved)="onDragMoved($event)" [cdkDragData]="ticket">
+
                         {{ ticket.name }}
+                        <button (click)="deleteTask(ticket.taskId)">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

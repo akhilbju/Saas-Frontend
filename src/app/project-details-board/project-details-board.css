@@ -248,3 +248,31 @@
     transform: scale(1);
   }
 }
+.board-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  height: calc(100vh - 160px); /* adjust for header + popup */
+}
+
+.board {
+  display: inline-flex;
+  gap: 16px;
+  padding: 12px;
+}
+
+.column {
+  min-width: 280px;
+  max-width: 280px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.column-body {
+  overflow-y: auto;
+  max-height: calc(100vh - 220px);
+}
+
+
