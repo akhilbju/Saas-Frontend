@@ -252,7 +252,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
-  height: calc(100vh - 160px); /* adjust for header + popup */
+  height: calc(100vh - 160px); 
 }
 
 .board {
