@@ -15,8 +15,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProjectContextService } from '../services/project-context';
 import { UpdateTaskRequest } from '../models/updateTaskRequest';
-import { TaskDetails } from '../task-details/task-details';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-project-details-board',
@@ -30,8 +28,7 @@ export class ProjectDetailsBoard {
     private apiService: ApiService,
     private routes: ActivatedRoute,
     private context: ProjectContextService,
-    private dialog : MatDialog,
-
+    private router: Router
   ) {}
   projectId: number = 0;
   statuses: Getprojectstatuses[] = [];
@@ -77,7 +74,6 @@ export class ProjectDetailsBoard {
       this.projectDetails = this.context.getProject();
     });
     this.getStatuses();
-    this.GetTask();
   }
 
   getStatuses(): void {
@@ -86,6 +82,7 @@ export class ProjectDetailsBoard {
         this.statuses = response;
         this.orderItem();
         this.setConnectedDropLists();
+        this.GetTask();
       },
     });
   }
@@ -184,12 +181,9 @@ export class ProjectDetailsBoard {
     this.connectedDropLists = this.sortedStatuses.map((s) => 'status-' + s.statusId);
   }
 
-  openTaskDetails(task: any) {
-  this.dialog.open(TaskDetails, {
-    width: '600px',
-    data: { task }
-  });
-}
+  openTaskDetails(taskId: any) {
+    this.router.navigate(['task-details', taskId]);
+  }
   updateTask(): void {
     this.apiService.updateTask(this.updatetaskRequest).subscribe({
       next: (response) => {

@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { GetTaskHistory } from '../models/getTaskHistory';
+import { ApiService } from '../services/api';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-details',
@@ -8,14 +10,33 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './task-details.css',
 })
 export class TaskDetails {
-
-  constructor(
-    public dialogRef: MatDialogRef<TaskDetails>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
-
-   close(): void {
-    this.dialogRef.close();
+  constructor(private api: ApiService, private routes: ActivatedRoute) {}
+  taskHistory: GetTaskHistory = {
+    dateTime: null,
+    fromStatusId: null,
+    fromStatusName: '',
+    toStatusId: null,
+    toStatusName: '',
+    updatedBy: '',
+  };
+  taskId: number = 0;
+  ngOnInit() {
+    this.routes.paramMap.subscribe((params) => {
+      const id = params.get('taskId');
+      if (!id) {
+        console.error('ProjectId missing from parent route');
+        return;
+      }
+      this.taskId = +id;
+      this.getTaskHistory()
+    });
   }
 
+  getTaskHistory() {
+    this.api.getTaskHistory(this.taskId).subscribe({
+      next: (value) => {
+        this.taskHistory = value;
+      },
+    });
+  }
 }

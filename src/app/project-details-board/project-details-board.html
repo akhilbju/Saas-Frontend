@@ -75,7 +75,7 @@
 
                 <div class="column-body">
                     <div class="ticket" *ngFor="let ticket of tasksByStatus[status.statusId]" cdkDrag
-                        (cdkDragMoved)="onDragMoved($event)" [cdkDragData]="ticket" (click)=" openTaskDetails(ticket)">
+                        (cdkDragMoved)="onDragMoved($event)" [cdkDragData]="ticket" (click)=" openTaskDetails(ticket.taskId)">
                         <div class="ticket-summary">
                             <h3>{{ ticket.name }}</h3>
                             <p>{{ticket.description}}</p>

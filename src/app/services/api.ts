@@ -14,6 +14,7 @@ import { EditProjectStatus } from '../models/editProjectStatus';
 import { CreateTask } from '../models/createTask';
 import { GetTask } from '../models/GetTask';
 import { UpdateTaskRequest } from '../models/updateTaskRequest';
+import { GetTaskHistory } from '../models/getTaskHistory';
 
 @Injectable({
   providedIn: 'root',
@@ -43,9 +44,7 @@ export class ApiService {
     GetTask : this.commonUrl + this.Project + 'GetTasks/projectId?projectId=',
     UpdateTask : this.commonUrl + this.Project + 'UpdateTask',
     DeleteTask : this.commonUrl + this.Project + 'DeleteTask?taskId=',
-    GetTaskHistory : this.commonUrl + this.Project + 'GetTaskStatusHistories?TaskId='
-
-
+    GetTaskHistory : this.commonUrl + this.Project + 'GetTaskStatusHistories?TaskId=',
   };
   
   private common : any = {
@@ -96,6 +95,6 @@ export class ApiService {
     return this.http.delete<CommonResponse>(this.project.DeleteTask + taskId)
   }
   getTaskHistory(taskId:number){
-    return this.http.delete<CommonResponse>(this.project.GetTaskHistory + taskId)
+    return this.http.get<GetTaskHistory>(this.project.GetTaskHistory + taskId)
   }
 }
