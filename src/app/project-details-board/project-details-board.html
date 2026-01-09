@@ -65,11 +65,9 @@
     <!-- Board -->
     <div class="board-scroll" #boardWrapper>
         <div class="board">
-            <div class="column" *ngFor="let status of sortedStatuses" cdkDropList 
-            [id]="'status-' + status.statusId"
-            [cdkDropListData]="tasksByStatus[status.statusId]" 
-            [cdkDropListConnectedTo]="connectedDropLists"
-            (cdkDropListDropped)="onDrop($event)">
+            <div class="column" *ngFor="let status of sortedStatuses" cdkDropList [id]="'status-' + status.statusId"
+                [cdkDropListData]="tasksByStatus[status.statusId]" [cdkDropListConnectedTo]="connectedDropLists"
+                (cdkDropListDropped)="onDrop($event)">
 
                 <div class="column-header">
                     {{ status.status }}
@@ -77,11 +75,12 @@
 
                 <div class="column-body">
                     <div class="ticket" *ngFor="let ticket of tasksByStatus[status.statusId]" cdkDrag
-                        (cdkDragMoved)="onDragMoved($event)" 
-                        [cdkDragData]="ticket">
-
-                        {{ ticket.name }}
-                        <button (click)="deleteTask(ticket.taskId)">Delete</button>
+                        (cdkDragMoved)="onDragMoved($event)" [cdkDragData]="ticket" (click)=" openTaskDetails(ticket)">
+                        <div class="ticket-summary">
+                            <h3>{{ ticket.name }}</h3>
+                            <p>{{ticket.description}}</p>
+                        </div>
+                        <button class="task-delete" (click)="deleteTask(ticket.taskId)">X</button>
                     </div>
                 </div>
             </div>

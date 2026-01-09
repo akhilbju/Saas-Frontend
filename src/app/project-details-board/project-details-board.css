@@ -59,6 +59,8 @@
   margin-bottom: 8px;
   border-radius: 6px;
   cursor: grab;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* ================= POPUP BACKDROP ================= */
@@ -273,6 +275,19 @@
 .column-body {
   overflow-y: auto;
   max-height: calc(100vh - 220px);
+}
+
+.task-delete{
+  height: 20px;
+  margin-top: 20px;
+  background-color: red;
+  color: white;
+  border-radius: 50px;
+}
+
+.task-delete:hover {
+  background-color: tan;
+  height: 2%;
 }
 
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef, NgModule, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Getprojectstatuses } from '../models/getprojectstatuses';
 import {
   CdkDragDrop,
@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProjectContextService } from '../services/project-context';
 import { UpdateTaskRequest } from '../models/updateTaskRequest';
+import { TaskDetails } from '../task-details/task-details';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-project-details-board',
@@ -27,7 +29,9 @@ export class ProjectDetailsBoard {
   constructor(
     private apiService: ApiService,
     private routes: ActivatedRoute,
-    private context: ProjectContextService
+    private context: ProjectContextService,
+    private dialog : MatDialog,
+
   ) {}
   projectId: number = 0;
   statuses: Getprojectstatuses[] = [];
@@ -180,6 +184,12 @@ export class ProjectDetailsBoard {
     this.connectedDropLists = this.sortedStatuses.map((s) => 'status-' + s.statusId);
   }
 
+  openTaskDetails(task: any) {
+  this.dialog.open(TaskDetails, {
+    width: '600px',
+    data: { task }
+  });
+}
   updateTask(): void {
     this.apiService.updateTask(this.updatetaskRequest).subscribe({
       next: (response) => {
