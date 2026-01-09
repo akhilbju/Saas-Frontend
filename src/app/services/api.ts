@@ -95,6 +95,6 @@ export class ApiService {
     return this.http.delete<CommonResponse>(this.project.DeleteTask + taskId)
   }
   getTaskHistory(taskId:number){
-    return this.http.get<GetTaskHistory>(this.project.GetTaskHistory + taskId)
+    return this.http.get<GetTaskHistory[]>(this.project.GetTaskHistory + taskId)
   }
 }

@@ -1,7 +1,22 @@
-<div class="task-details">
-    <h2 class="header"> </h2>
-    <div>
+<div class="task">
+    <h2 class="header">Task</h2>
+    <div class="task-details">
+        <h4>Task History</h4>
+        <div class="timeline">
+            <div class="timeline-item" *ngFor="let h of formattedHistory">
+                <div class="dot"></div>
+
+                <div class="content">
+                    <div class="message">
+                        {{ h.message }}
+                    </div>
+
+                    <div class="time">
+                        {{ h.dateTime | date:'dd MMM yyyy, hh:mm a' }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
-
